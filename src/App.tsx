@@ -1,31 +1,42 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '../../../../../../vite.svg';
-import './App.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0);
+import LayoutContext from './context/layout-context';
+import routers from '@/routes';
+import antdTheme from './constants/antd-theme';
+
+import { App, ConfigProvider } from 'antd';
+
+import type { ThemeConfig } from 'antd';
+
+const router = createBrowserRouter(routers);
+
+function Index() {
+  // 侧边栏的显隐
+  const [siderHidden, setSiderHidden] = useState<boolean>(false);
+  // header菜单的现隐
+  const [menuHidden, setMenuHidden] = useState<boolean>(false);
+  // 全局暗黑 & 日常模式切换 & 皮肤切换
+  const [theme, setTheme] = useState<ThemeConfig>(antdTheme);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <ConfigProvider theme={theme}>
+      <App>
+        <LayoutContext.Provider
+          value={{
+            siderHidden,
+            setSiderHidden,
+            menuHidden,
+            setMenuHidden,
+            theme,
+            setTheme,
+          }}
+        >
+          <RouterProvider router={router} />
+        </LayoutContext.Provider>
+      </App>
+    </ConfigProvider>
   );
 }
 
-export default App;
+export default Index;
