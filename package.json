@@ -5,11 +5,11 @@
   "type": "module",
   "lint-staged": {
     "*.{js,jsx,tx,tsx}": [
-      "eslint --fix",
+      "npm run lint:script",
       "git add"
     ],
     "*.{css,less}": [
-      "stylelint --fix",
+      "npm run lint:style",
       "git add"
     ]
   },
