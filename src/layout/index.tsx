@@ -22,7 +22,7 @@ async function loader() {
   }
 
   const permission = await new Promise((resolve) => {
-    resolve(['home']);
+    resolve([]);
   });
 
   return {
